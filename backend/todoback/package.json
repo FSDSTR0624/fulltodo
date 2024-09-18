@@ -1,0 +1,21 @@
+{
+  "name": "todo-app-backend",
+  "version": "1.0.0",
+  "description": "## Endpoints",
+  "main": "backapp.js",
+  "scripts": {
+    "dev": "node backapp.js",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-cli": "^29.7.0",
+    "supertest": "^6.3.4"
+  }
+}

@@ -1,0 +1,158 @@
+/* App.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+PE:wght@100..400&display=swap');
+
+body {
+  font-family: "Playwrite PE", cursive;
+  background-color: #7c7c7c;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 50px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.form-container label {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+}
+
+.form-container input, .form-container textarea {
+  margin-top: 5px;
+  padding: 10px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.form-container input[type="color"] {
+  width: 50px;
+  height: 35px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 10px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.task-item {
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.task-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.status {
+  background-color: silver;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.status-in-progress {
+  color: #007bff;
+}
+
+.status-finished {
+  color: #28a745;
+}
+
+.status-cannot-be-achieved {
+  color: #dc3545;
+}
+
+.centered {
+  text-align: center;
+}
+
+.status-button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.status-button.in-progress {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.status-button.finished {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.status-button.cannot-be-achieved {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.delete-button {
+  padding: 10px 20px;
+  background-color: #ff4d4d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #ff1a1a;
+}
+
+.app-container bottom{
+  color: #fff;
+  font-weight: bold;
+padding: auto;
+}
