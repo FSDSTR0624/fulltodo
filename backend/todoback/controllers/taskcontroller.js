@@ -1,82 +1,91 @@
-const getTasks = (req, res) => {
-    res.status(200).json([
-        {
-            id: "1",
-            title: "Sample Task",
-            description: "This is a sample task",
-            status: "TODO",
-            dueDate: "2023-12-31",
-            user: "user1",
-            createdAt: new Date(),
-            modifiedAt: new Date()
+const Task = require('./models/taskschema');
+
+const getTasks = async (req, res) => {
+    try {
+        const tasks = await Task.find({ status: { $ne: 'DONE' } });
+        res.status(200).json(tasks);
+    } catch (err) {
+        res.status(500).json({ msg: 'Server error' });
+    }
+};
+
+const getTaskById = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id);
+        if (!task) {
+            return res.status(404).json({ msg: 'Task not found' });
         }
-    ]);
+        res.status(200).json(task);
+    } catch (err) {
+        res.status(500).json({ msg: 'Server error' });
+    }
 };
 
-const getTaskById = (req, res) => {
-    const {id} = req.params;
-    if (id === "1") {
-        res.status(200).json({
-            id: "1",
-            title: "Sample Task",
-            description: "This is a sample task",
-            status: "TODO",
-            dueDate: "2023-12-31",
-            user: "user1",
-            createdAt: new Date(),
-            modifiedAt: new Date()
+const createTask = async (req, res) => {
+    const { title, description, dueDate, user } = req.body;
+    if (!title) {
+        return res.status(400).json({ msg: "You missed parameter 'title'" });
+    }
+    try {
+        const newTask = new Task({
+            title,
+            description,
+            dueDate,
+            user
         });
-    } else if (id === "2") {
-        res.status(403).json({ msg: "Forbidden" });
-    } else {
-        res.status(404).json({ msg: "Task not found" });
+        const task = await newTask.save();
+        res.status(201).json({ msg: "Task created", id: task.id });
+    } catch (err) {
+        res.status(500).json({ msg: 'Server error' });
     }
 };
 
-const createTask = (req, res) => {
-    const {title} = req.body;
+const updateTask = async (req, res) => {
+    const { title, description, dueDate } = req.body;
     if (!title) {
-        res.status(400).json({ msg: "You missed parameter 'title'" });
-    } else {
-        res.status(201).json({ msg: "Task created", id: "123456" });
+        return res.status(400).json({ msg: "You missed parameters: 'id' or 'title'" });
     }
-};
-
-const updateTask = (req, res) => {
-    const { id } = req.params;
-    const {title} = req.body;
-    if (!title) {
-        res.status(400).json({ msg: "You missed parameters: 'id' or 'title'" });
-    } else if (id === "2") {
-        res.status(403).json({ msg: "Forbidden" });
-    } else if (id === "3") {
-        res.status(404).json({ msg: "Task not found" });
-    } else {
+    try {
+        let task = await Task.findById(req.params.id);
+        if (!task) {
+            return res.status(404).json({ msg: 'Task not found' });
+        }
+        task.title = title;
+        task.description = description;
+        task.dueDate = dueDate;
+        task.modifiedAt = Date.now();
+        await task.save();
         res.status(200).json({ msg: "Task updated" });
+    } catch (err) {
+        res.status(500).json({ msg: 'Server error' });
     }
 };
 
-const deleteTask = (req, res) => {
-    const { id } = req.params;
-    if (id === "2") {
-        res.status(403).json({ msg: "Forbidden" });
-    } else if (id === "3") {
-        res.status(404).json({ msg: "Task not found" });
-    } else {
+const deleteTask = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id);
+        if (!task) {
+            return res.status(404).json({ msg: 'Task not found' });
+        }
+        await task.remove();
         res.status(200).json({ msg: "Task removed successfully" });
+    } catch (err) {
+        res.status(500).json({ msg: 'Server error' });
     }
 };
 
-const markTaskAsDone = (req, res) => {
-    const { id } = req.params;
-    if (!id) {
-        res.status(400).json({ msg: "Missing parameter: id" });
-    } else if (id === "2") {
-        res.status(403).json({ msg: "Forbidden" });
-    } else if (id === "3") {
-        res.status(404).json({ msg: "Task not found" });
-    } else {
+const markTaskAsDone = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id);
+        if (!task) {
+            return res.status(404).json({ msg: 'Task not found' });
+        }
+        task.status = 'DONE';
+        task.modifiedAt = Date.now();
+        await task.save();
         res.status(200).json({ msg: "Task marked as completed" });
+    } catch (err) {
+        res.status(500).json({ msg: 'Server error' });
     }
 };
 

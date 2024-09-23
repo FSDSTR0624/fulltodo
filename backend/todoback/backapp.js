@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require('cors');
+const connectDB = require('./stack');
 const taskroutes = require('./routes/taskroute.js'); // Ensure the path is correct
 const userroutes = require('./routes/userroute.js'); // Ensure the path is correct
 // const { middleWare: { logger } } = require("./middlewares/middle.js");
 
 const app = express();
 const port = 3000;
+connectDB();
 
     // Function to simulate sleep (if needed)
     /*function sleep(ms) {
@@ -31,5 +33,5 @@ app.listen(port, () => {
 console.log(`App listening on port ${port}`);
 });
 
-    // module.exports = { app, server };
+    //module.exports = { app, server };
 

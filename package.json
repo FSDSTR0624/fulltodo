@@ -70,6 +70,7 @@
     "memorystream": "^0.3.1",
     "minimatch": "^3.1.2",
     "nice-try": "^1.0.5",
+    "nodemon": "^3.1.7",
     "normalize-package-data": "^2.5.0",
     "npm-run-all": "^4.1.5",
     "object-inspect": "^1.13.2",
@@ -119,7 +120,7 @@
     "concurrently": "^9.0.1"
   },
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend/todoback\"", 
+    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend/todoback\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
