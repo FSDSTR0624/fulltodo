@@ -24,9 +24,10 @@ const App = () => {
       title: event.target.title.value,
       description: event.target.description.value,
       dueDate: event.target.dueDate.value,
-      status: 'In Progress',
+      status: 'TODO',
       bgColor: bgColor,
       textColor: textColor,
+      user: 'user1' // Assuming a default user for now
     };
 
     // Send the new task to the backend
@@ -54,7 +55,7 @@ const App = () => {
       method: 'DELETE',
     })
       .then(() => {
-        setInputs(inputs.filter((input) => input.id !== id));
+        setInputs(inputs.filter((input) => input._id !== id));
       })
       .catch(error => {
         console.error('There was an error deleting the task!', error);
@@ -74,7 +75,7 @@ const App = () => {
       .then(updatedTask => {
         setInputs(
           inputs.map((input) =>
-            input.id === id ? { ...input, status: updatedTask.status } : input
+            input._id === id ? { ...input, status: updatedTask.status } : input
           )
         );
       })
@@ -82,16 +83,15 @@ const App = () => {
         console.error('There was an error updating the task status!', error);
       });
   };
-  
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'In Progress':
+      case 'TODO':
+        return 'status-todo';
+      case 'IN_PROGRESS':
         return 'status-in-progress';
-      case 'Finished':
-        return 'status-finished';
-      case 'Cannot be Achieved':
-        return 'status-cannot-be-achieved';
+      case 'DONE':
+        return 'status-done';
       default:
         return '';
     }
@@ -125,33 +125,33 @@ const App = () => {
       </form>
       <ul className="task-list">
         {inputs.map((input) => (
-          <li key={input.id} className="task-item" style={{ backgroundColor: input.bgColor, color: input.textColor }}>
+          <li key={input._id} className="task-item" style={{ backgroundColor: input.bgColor, color: input.textColor }}>
             <h3>{input.title}</h3>
             <p>{input.description}</p>
-            <p>{input.dueDate}</p>
+            <p>{new Date(input.dueDate).toLocaleDateString()}</p>
             <p className={`status ${getStatusColor(input.status)}`}>{input.status}</p>
             <button
+              className="status-button todo"
+              onClick={() => handleStatusChange(input._id, 'TODO')}
+              disabled={input.status === 'TODO'}
+            >
+              TODO
+            </button>
+            <button
               className="status-button in-progress"
-              onClick={() => handleStatusChange(input.id, 'In Progress')}
-              disabled={input.status === 'In Progress'}
+              onClick={() => handleStatusChange(input._id, 'IN_PROGRESS')}
+              disabled={input.status === 'IN_PROGRESS'}
             >
               In Progress
             </button>
             <button
-              className="status-button finished"
-              onClick={() => handleStatusChange(input.id, 'Finished')}
-              disabled={input.status === 'Finished'}
+              className="status-button done"
+              onClick={() => handleStatusChange(input._id, 'DONE')}
+              disabled={input.status === 'DONE'}
             >
-              Finished
+              Done
             </button>
-            <button
-              className="status-button cannot-be-achieved"
-              onClick={() => handleStatusChange(input.id, 'Cannot be Achieved')}
-              disabled={input.status === 'Cannot be Achieved'}
-            >
-              Cannot be Achieved
-            </button>
-            <button className="delete-button" onClick={() => handleDelete(input.id)}>Delete</button>
+            <button className="delete-button" onClick={() => handleDelete(input._id)}>Delete</button>
           </li>
         ))}
       </ul>

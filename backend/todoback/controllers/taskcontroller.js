@@ -1,8 +1,8 @@
-const Task = require('./models/taskschema');
+const Task = require('../models/taskschema');
 
 const getTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({ status: { $ne: 'DONE' } });
+        const tasks = await Task.find();
         res.status(200).json(tasks);
     } catch (err) {
         res.status(500).json({ msg: 'Server error' });
@@ -22,7 +22,7 @@ const getTaskById = async (req, res) => {
 };
 
 const createTask = async (req, res) => {
-    const { title, description, dueDate, user } = req.body;
+    const { title, description, dueDate, user, bgColor, textColor } = req.body;
     if (!title) {
         return res.status(400).json({ msg: "You missed parameter 'title'" });
     }
@@ -31,17 +31,20 @@ const createTask = async (req, res) => {
             title,
             description,
             dueDate,
-            user
+            user,
+            bgColor,
+            textColor,
+            status: 'TODO'
         });
         const task = await newTask.save();
-        res.status(201).json({ msg: "Task created", id: task.id });
+        res.status(201).json(task);
     } catch (err) {
         res.status(500).json({ msg: 'Server error' });
     }
 };
 
 const updateTask = async (req, res) => {
-    const { title, description, dueDate } = req.body;
+    const { title, description, dueDate, bgColor, textColor } = req.body;
     if (!title) {
         return res.status(400).json({ msg: "You missed parameters: 'id' or 'title'" });
     }
@@ -53,9 +56,11 @@ const updateTask = async (req, res) => {
         task.title = title;
         task.description = description;
         task.dueDate = dueDate;
+        task.bgColor = bgColor;
+        task.textColor = textColor;
         task.modifiedAt = Date.now();
         await task.save();
-        res.status(200).json({ msg: "Task updated" });
+        res.status(200).json(task);
     } catch (err) {
         res.status(500).json({ msg: 'Server error' });
     }
@@ -80,10 +85,10 @@ const markTaskAsDone = async (req, res) => {
         if (!task) {
             return res.status(404).json({ msg: 'Task not found' });
         }
-        task.status = 'DONE';
+        task.status = req.body.status;
         task.modifiedAt = Date.now();
         await task.save();
-        res.status(200).json({ msg: "Task marked as completed" });
+        res.status(200).json(task);
     } catch (err) {
         res.status(500).json({ msg: 'Server error' });
     }

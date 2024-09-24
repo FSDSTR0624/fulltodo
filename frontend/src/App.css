@@ -1,9 +1,8 @@
-/* App.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Playwrite+PE:wght@100..400&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Playwrite+PE:wght@100..400&display=swap');*/
 
 body {
-  font-family: "Playwrite PE", cursive;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   background-color: #7c7c7c;
   margin: 0;
   padding: 0;
@@ -92,6 +91,9 @@ body {
 }
 
 .status {
+  width: 150px;
+  margin: 15px auto;
+  display: block;
   background-color: silver;
   padding: 5px;
   border-radius: 5px;
@@ -101,11 +103,11 @@ body {
   color: #007bff;
 }
 
-.status-finished {
+.status-done {
   color: #28a745;
 }
 
-.status-cannot-be-achieved {
+.status-todo {
   color: #dc3545;
 }
 
@@ -127,12 +129,12 @@ body {
   color: #fff;
 }
 
-.status-button.finished {
+.status-button.done {
   background-color: #28a745;
   color: #fff;
 }
 
-.status-button.cannot-be-achieved {
+.status-button.todo {
   background-color: #dc3545;
   color: #fff;
 }
